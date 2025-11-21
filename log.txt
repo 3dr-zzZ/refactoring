@@ -1,2 +1,6 @@
-03e1db3 (HEAD -> main) Task 1.1
-56a761a (origin/main, origin/HEAD) Initial commit
+1cda18b (HEAD -> main) Task 2.1
+0973bb2 (origin/main, origin/HEAD) Task 1.1
+73d3be6 Task 1.1
+ed40498 Task 1.2
+03e1db3 Task 1.1
+56a761a Initial commit
