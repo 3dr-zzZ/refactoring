@@ -24,6 +24,27 @@ public class StatementPrinter {
         return plays;
     }
 
+    public Play getPlay(String playId) {
+        return plays.get(playId);
+    }
+
+    public int getAmount(Performance p, Play play) {
+        return calculateAmount(p, play);
+    }
+
+    public int getVolumeCredits(Performance p, Play play) {
+        int credits = Math.max(p.getAudience() - Constants.BASE_VOLUME_CREDIT_THRESHOLD, 0);
+        if ("comedy".equals(play.getType())) {
+            credits += p.getAudience() / Constants.COMEDY_EXTRA_VOLUME_FACTOR;
+        }
+        return credits;
+    }
+
+    public String usd(int amount) {
+        NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
+        return frmt.format(amount / (double) Constants.PERCENT_FACTOR);
+    }
+
     private int calculateAmount(Performance p, Play play) {
         int thisAmount = 0;
         switch (play.getType()) {
@@ -95,7 +116,20 @@ public class StatementPrinter {
             result.append(formatLine(play, thisAmount, p, frmt));
             totalAmount += thisAmount;
         }
+        // set tracking fields before returning
+        lastTotalAmount = totalAmount;
+        lastTotalVolumeCredits = volumeCredits;
         result.append(formatTotals(totalAmount, volumeCredits, frmt));
         return result.toString();
+    }
+    private int lastTotalAmount = 0;
+    private int lastTotalVolumeCredits = 0;
+
+    public int getTotalAmount() {
+        return lastTotalAmount;
+    }
+
+    public int getTotalVolumeCredits() {
+        return lastTotalVolumeCredits;
     }
 }
