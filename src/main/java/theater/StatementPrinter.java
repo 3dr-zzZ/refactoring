@@ -49,6 +49,15 @@ public class StatementPrinter {
         return thisAmount;
     }
 
+    private String formatLine(Play play, int thisAmount, Performance p, NumberFormat frmt) {
+        return String.format(
+                "  %s: %s (%s seats)%n",
+                play.getName(),
+                frmt.format(thisAmount / Constants.PERCENT_FACTOR),
+                p.getAudience()
+        );
+    }
+
     /**
      * Returns a formatted statement of the invoice associated with this printer.
      * @return the formatted statement
@@ -78,14 +87,7 @@ public class StatementPrinter {
             }
 
             // print line for this order
-            result.append(
-                    String.format(
-                            "  %s: %s (%s seats)%n",
-                            play.getName(),
-                            frmt.format(thisAmount / Constants.PERCENT_FACTOR),
-                            p.getAudience()
-                    )
-            );
+            result.append(formatLine(play, thisAmount, p, frmt));
             totalAmount += thisAmount;
         }
         result.append(String.format("Amount owed is %s%n", frmt.format(totalAmount / Constants.PERCENT_FACTOR)));
