@@ -58,6 +58,11 @@ public class StatementPrinter {
         );
     }
 
+    private String formatTotals(int totalAmount, int volumeCredits, NumberFormat frmt) {
+        return String.format("Amount owed is %s%n", frmt.format(totalAmount / Constants.PERCENT_FACTOR))
+                + String.format("You earned %s credits%n", volumeCredits);
+    }
+
     /**
      * Returns a formatted statement of the invoice associated with this printer.
      * @return the formatted statement
@@ -90,8 +95,7 @@ public class StatementPrinter {
             result.append(formatLine(play, thisAmount, p, frmt));
             totalAmount += thisAmount;
         }
-        result.append(String.format("Amount owed is %s%n", frmt.format(totalAmount / Constants.PERCENT_FACTOR)));
-        result.append(String.format("You earned %s credits%n", volumeCredits));
+        result.append(formatTotals(totalAmount, volumeCredits, frmt));
         return result.toString();
     }
 }
